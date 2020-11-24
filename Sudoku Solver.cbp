@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Sudoku Solver" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Sudoku Solver [Debug]" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="src" />
+					<Add directory="src/" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Sudoku Solver [Release]" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="src" />
+					<Add directory="src/" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++17" />
+			<Add option="-fexceptions" />
+			<Add directory="SDL2/i686-w64-mingw32/include/SDL2" />
+			<Add directory="SDL2/SDL2_image/i686-w64-mingw32/include/SDL2" />
+			<Add directory="SDL2/SDL2_ttf/i686-w64-mingw32/include/SDL2" />
+			<Add directory="SDL2/SDL2_mixer/i686-w64-mingw32/include/SDL2" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2.dll -lSDL2_image -lSDL2_image.dll -lSDL2_ttf -lSDL2_ttf.dll -lSDL2_mixer -lSDL2_mixer.dll" />
+			<Add directory="SDL2/i686-w64-mingw32/lib" />
+			<Add directory="SDL2/SDL2_image/i686-w64-mingw32/lib" />
+			<Add directory="SDL2/SDL2_ttf/i686-w64-mingw32/lib" />
+			<Add directory="SDL2/SDL2_mixer/i686-w64-mingw32/lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
+		<Unit filename="src/Button.cpp" />
+		<Unit filename="src/Button.h" />
+		<Unit filename="src/Cell.cpp" />
+		<Unit filename="src/Cell.h" />
+		<Unit filename="src/Graphics.cpp" />
+		<Unit filename="src/Graphics.h" />
+		<Unit filename="src/Message.cpp" />
+		<Unit filename="src/Message.h" />
+		<Unit filename="src/Sound.cpp" />
+		<Unit filename="src/Sound.h" />
+		<Unit filename="src/SudokuSolver.cpp" />
+		<Unit filename="src/SudokuSolver.h" />
+		<Unit filename="src/Window.cpp" />
+		<Unit filename="src/Window.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
