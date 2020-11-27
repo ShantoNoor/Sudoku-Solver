@@ -42,6 +42,7 @@ void Window::load()
     }
 
     Graphics::get()->makeTextTexture("Start", "START", textColor);
+    Graphics::get()->makeTextTexture("Set", "SET", textColor);
     startButton.setConfig("Start", 250, 338);
 
     Graphics::get()->makeTextTexture("Clear", "CLEAR", textColor);
@@ -70,18 +71,14 @@ void Window::handleEvents()
         {
             m_running = false;
         }
-        else if(m_event.type == SDL_KEYDOWN && !Window::get()->getIsSolving())
-        {
-            switch(m_event.key.keysym.sym)
-            {
-            case SDLK_s:
-                solver.setExample(grid);
-                break;
-            }
-        }
         if(startButton.isClicked(&m_event))
         {
-            if(solver.checkValidity(grid))
+            if(solver.countNumberOfEmptyCells(grid) == 81)
+            {
+                solver.setExample(grid);
+                startButton.setDisable(false);
+            }
+            else if(solver.checkValidity(grid))
             {
                 Sound::get()->playMusicFX("clicked");
                 Window::get()->setIsSolving(true);
@@ -121,6 +118,8 @@ void Window::handleEvents()
 void Window::update()
 {
     handleEvents();
+    if(solver.countNumberOfEmptyCells(grid) == 81) startButton.setId("Set");
+    else startButton.setId("Start");
     if(!Window::get()->getIsSolving()) clearButton.setDisable(false);
     render();
 }

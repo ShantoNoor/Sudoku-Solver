@@ -65,3 +65,8 @@ bool Button::isClicked(SDL_Event* e)
     }
     return false;
 }
+void Button::setId(std::string id)
+{
+    m_id = id;
+    SDL_QueryTexture(Graphics::get()->getTexture(id), NULL, NULL, &textureX, &textureY);
+}

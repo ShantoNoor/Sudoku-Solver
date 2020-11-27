@@ -22,6 +22,7 @@ public:
     Button();
     void render(int x, int y);
     void setConfig(std::string id, int width, int height);
+    void setId(std::string id);
     bool isClicked(SDL_Event* e);
     void setDisable(bool value) { m_isDisabled = value; }
     bool getDisable() { return m_isDisabled; }

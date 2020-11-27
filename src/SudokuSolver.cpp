@@ -4,6 +4,12 @@
 #include <iostream>
 #include "Sound.h"
 
+SudokuSolver::SudokuSolver()
+{
+    m_solved = false;
+    srand(time(0)); // for random number generator
+}
+
 bool SudokuSolver::solve(Cell grid[9][9], int totalNumberOfEmptyCells, int checkCout)
 {
     if(totalNumberOfEmptyCells == 0)
@@ -52,11 +58,13 @@ bool SudokuSolver::solve(Cell grid[9][9], int totalNumberOfEmptyCells, int check
 void SudokuSolver::setExample(Cell grid[9][9])
 {
     clearBoard(grid);
+    m_solved = false;
+    int r = rand()%BOARD_COUNT;
     for(int i = 0; i < 9; i++)
     {
         for(int j = 0; j < 9; j++)
         {
-            grid[i][j].setNumberId(m_example[i][j]);
+            grid[i][j].setNumberId(m_example[r][i][j]);
         }
     }
 }

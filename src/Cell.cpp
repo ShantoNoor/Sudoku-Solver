@@ -3,6 +3,7 @@
 #include "Window.h"
 #include <string>
 #include "Sound.h"
+#include "SudokuSolver.h"
 
 Cell::Cell()
 {
