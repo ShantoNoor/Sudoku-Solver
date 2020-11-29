@@ -22,11 +22,14 @@ Window::Window()
     m_isSolving = false;
     m_error = false;
     m_unable = false;
+    m_isStarting = true;
 }
 
 void Window::load()
 {
     if(!Graphics::get()->loadFont("font.ttf", 60)) m_running = false;
+    if(!Graphics::get()->load("help", "help.png", false, 0, 0, 0, 240)) m_running = false;
+
     SDL_Color textColor = {255, 255, 255};
     for(int i = 1; i <= 9; i++)
     {
@@ -42,8 +45,9 @@ void Window::load()
     }
 
     Graphics::get()->makeTextTexture("Start", "START", textColor);
+    Graphics::get()->makeTextTexture("Solve", "SOLVE", textColor);
     Graphics::get()->makeTextTexture("Set", "SET", textColor);
-    startButton.setConfig("Start", 250, 338);
+    startButton.setConfig("Solve", 250, 338);
 
     Graphics::get()->makeTextTexture("Clear", "CLEAR", textColor);
     clearButton.setConfig("Clear", 250, 338);
@@ -73,12 +77,18 @@ void Window::handleEvents()
         }
         if(startButton.isClicked(&m_event))
         {
-            if(solver.countNumberOfEmptyCells(grid) == 81)
+            if(m_isStarting)
+            {
+                m_isStarting = false;
+                startButton.setDisable(false);
+                clearButton.setDisable(false);
+            }
+            else if(solver.countNumberOfEmptyCells(grid) == 81)
             {
                 solver.setExample(grid);
                 startButton.setDisable(false);
             }
-            else if(solver.checkValidity(grid))
+            else if(solver.checkValidity(grid) && !m_isStarting)
             {
                 Sound::get()->playMusicFX("clicked");
                 Window::get()->setIsSolving(true);
@@ -93,7 +103,7 @@ void Window::handleEvents()
                 startButton.setDisable(true);
             }
         }
-        if(clearButton.isClicked(&m_event))
+        if(clearButton.isClicked(&m_event) && !m_isStarting)
         {
             Sound::get()->playMusicFX("clicked");
             startButton.setDisable(false);
@@ -102,7 +112,7 @@ void Window::handleEvents()
             Window::get()->update();
             solver.clearBoard(grid);
         }
-        if(!startButton.getDisable())
+        if(!startButton.getDisable() && !m_isStarting)
         {
             for(int i = 0; i < 9; i++)
             {
@@ -118,9 +128,10 @@ void Window::handleEvents()
 void Window::update()
 {
     handleEvents();
-    if(solver.countNumberOfEmptyCells(grid) == 81) startButton.setId("Set");
-    else startButton.setId("Start");
     if(!Window::get()->getIsSolving()) clearButton.setDisable(false);
+    if(m_isStarting) { startButton.setId("Start"); clearButton.setDisable(true); }
+    else if(solver.countNumberOfEmptyCells(grid) == 81) startButton.setId("Set");
+    else startButton.setId("Solve");
     render();
 }
 
@@ -154,6 +165,7 @@ void Window::render()
 
     if(m_error) error.render();
     if(m_unable) unable.render();
+	if(m_isStarting) Graphics::get()->render("help", 0, 0);
 
     //Update screen
 	SDL_RenderPresent( m_renderer );

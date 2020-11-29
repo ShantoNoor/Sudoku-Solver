@@ -16,6 +16,7 @@ private:
     SDL_Renderer* m_renderer;
     bool m_running;
     bool m_isSolving;
+    bool m_isStarting;
     int m_screenWidth, m_screenHeight;
     SDL_Event m_event;
     bool m_error, m_unable;

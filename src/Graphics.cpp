@@ -58,3 +58,50 @@ void Graphics::close()
     }
     m_textureMap.clear();
 }
+
+bool Graphics::load(std::string id, std::string path, bool setColorKey, int r, int g, int b, int a)
+{
+    //The final texture
+	SDL_Texture* newTexture = nullptr;
+
+	//Load image at specified path
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+	if( loadedSurface == nullptr )
+	{
+		SDL_Log( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+	}
+	else
+	{
+		//Color key image
+        if(setColorKey)
+        {
+            if(r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255)
+            {
+                if(SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, r, g, b )) != 0)
+                {
+                    SDL_Log("Unable to set color key %s\n", SDL_GetError());
+                }
+            }
+            else
+            {
+                SDL_Log("Color values are not in range.\n");
+            }
+        }
+
+		//Create texture from surface pixels
+        newTexture = SDL_CreateTextureFromSurface( Window::get()->getRenderer(), loadedSurface );
+		if( newTexture == nullptr )
+		{
+			SDL_Log( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		}
+
+        if(a != 0) SDL_SetTextureAlphaMod(newTexture, a);
+
+		//Get rid of old loaded surface
+		SDL_FreeSurface( loadedSurface );
+	}
+
+	//Return success
+	m_textureMap[id] = newTexture;
+	return newTexture != nullptr;
+}

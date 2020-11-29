@@ -16,6 +16,7 @@ private:
 
 public:
     //Renders texture at given point
+    bool load(std::string id, std::string path, bool setColorKey = false, int r = 0, int g = 0, int b = 0, int a = 0);
     bool loadFont(std::string path, int size);
     bool makeTextTexture(std::string id, std::string text, SDL_Color textColor);
     void render( std::string id, int x, int y );
